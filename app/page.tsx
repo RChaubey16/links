@@ -1,15 +1,21 @@
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 const GATEWAY = process.env.NEXT_PUBLIC_GATEWAY_URL ?? 'http://localhost:3000';
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3004';
 
 export default async function HomePage() {
   const store = await cookies();
   if (store.get('access_token')) redirect('/dashboard');
 
+  // Derive the current app's origin from the request headers at runtime — this
+  // works correctly in every environment without needing a build-time env var.
+  const headersList = await headers();
+  const host = headersList.get('host') ?? 'localhost:3004';
+  const proto = headersList.get('x-forwarded-proto') ?? (host.startsWith('localhost') ? 'http' : 'https');
+  const appOrigin = `${proto}://${host}`;
+
   const loginUrl =
-    `${GATEWAY}/auth/google?redirect=${encodeURIComponent(`${APP_URL}/dashboard`)}`;
+    `${GATEWAY}/auth/google?redirect=${encodeURIComponent(`${appOrigin}/dashboard`)}`;
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white px-4">
