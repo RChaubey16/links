@@ -7,8 +7,6 @@ export default async function HomePage() {
   const store = await cookies();
   if (store.get('access_token')) redirect('/dashboard');
 
-  // Derive the current app's origin from the request headers at runtime — this
-  // works correctly in every environment without needing a build-time env var.
   const headersList = await headers();
   const host = headersList.get('host') ?? 'localhost:3004';
   const proto = headersList.get('x-forwarded-proto') ?? (host.startsWith('localhost') ? 'http' : 'https');
@@ -18,42 +16,70 @@ export default async function HomePage() {
     `${GATEWAY}/auth/google?redirect=${encodeURIComponent(`${appOrigin}/dashboard`)}`;
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-white px-4">
-      <div className="w-full max-w-sm text-center">
-        <div className="mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-600 mb-6">
-            <LinkIcon className="w-7 h-7 text-white" />
+    <div className="min-h-screen bg-void flex flex-col items-center justify-center px-6 relative overflow-hidden">
+      {/* Ambient glow */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 flex items-center justify-center">
+        <div className="w-[560px] h-[560px] rounded-full bg-gold/5 blur-[110px]" />
+      </div>
+
+      {/* Top border line */}
+      <div aria-hidden className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-void-border to-transparent" />
+
+      <div className="w-full max-w-[360px] relative">
+        {/* Platform label + title */}
+        <div className="mb-12 opacity-0 animate-fade-up delay-75">
+          <div className="inline-flex items-center gap-2.5 mb-7">
+            <div className="w-1.5 h-1.5 rounded-full bg-gold" />
+            <span className="text-[10px] font-sans tracking-[0.3em] uppercase text-ink-dim">
+              Atlas
+            </span>
           </div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Links</h1>
-          <p className="mt-2 text-slate-500 text-sm">Short links. Click tracking. No noise.</p>
+
+          <h1 className="font-display text-[76px] leading-none font-bold text-ink tracking-tight">
+            Links
+          </h1>
+          <p className="mt-4 text-ink-dim text-sm leading-relaxed font-sans">
+            Short links. Click tracking.
+            <br />No noise.
+          </p>
         </div>
 
-        <a
-          href={loginUrl}
-          className="flex items-center justify-center gap-3 w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-colors shadow-sm"
-        >
-          <GoogleIcon />
-          Continue with Google
-        </a>
+        {/* Divider */}
+        <div className="h-px bg-void-border mb-8 opacity-0 animate-fade-in delay-225" />
 
-        <p className="mt-10 text-xs text-slate-400">
-          Part of the <span className="text-slate-500 font-medium">Atlas</span> platform
-        </p>
+        {/* Auth section */}
+        <div className="opacity-0 animate-fade-up delay-300">
+          <a
+            href={loginUrl}
+            className="group relative flex items-center gap-3 w-full px-5 py-4 bg-void-card border border-void-border hover:border-gold/30 transition-all duration-300 overflow-hidden"
+          >
+            {/* Top shimmer on hover */}
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+            <GoogleIcon />
+            <span className="text-sm font-medium text-ink font-sans">Continue with Google</span>
+            <svg
+              className="w-3.5 h-3.5 text-ink-faint group-hover:text-gold transition-colors duration-300 ml-auto shrink-0"
+              fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+
+          <p className="mt-4 text-[11px] text-ink-faint text-center font-sans">
+            Secured via Google OAuth 2.0
+          </p>
+        </div>
       </div>
-    </div>
-  );
-}
 
-function LinkIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-      />
-    </svg>
+      {/* Bottom corner version */}
+      <div className="absolute bottom-6 right-6">
+        <span className="text-[10px] tracking-[0.2em] uppercase text-ink-faint font-sans">v1</span>
+      </div>
+
+      {/* Bottom border line */}
+      <div aria-hidden className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-void-border to-transparent" />
+    </div>
   );
 }
 

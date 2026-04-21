@@ -34,21 +34,23 @@ export default function CreateLinkForm({ onCreated }: Props) {
   };
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 p-5">
-      <h2 className="text-sm font-semibold text-slate-900 mb-4">New link</h2>
-      <form onSubmit={handleSubmit} className="space-y-2.5">
+    <div className="bg-void-card border border-void-border p-6">
+      <p className="text-[10px] font-sans font-semibold tracking-[0.2em] uppercase text-gold mb-5">
+        New Link
+      </p>
+      <form onSubmit={handleSubmit} className="space-y-3">
         <input
           type="url"
           value={targetUrl}
           onChange={e => setTargetUrl(e.target.value)}
           placeholder="https://example.com/your/long/url"
           required
-          className="w-full px-3 py-2.5 rounded-lg border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+          className="w-full px-4 py-3 bg-void border border-void-border text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:border-gold/40 focus:ring-1 focus:ring-gold/10 transition-all duration-200 font-sans"
         />
 
         <div className="flex gap-2">
-          <div className="flex items-center flex-1 rounded-lg border border-slate-200 overflow-hidden focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-transparent transition">
-            <span className="pl-3 pr-1 text-sm text-slate-400 select-none">/s/</span>
+          <div className="flex items-center flex-1 bg-void border border-void-border focus-within:border-gold/40 focus-within:ring-1 focus-within:ring-gold/10 transition-all duration-200 overflow-hidden">
+            <span className="pl-4 pr-1.5 text-sm text-ink-faint select-none font-mono">/s/</span>
             <input
               type="text"
               value={slug}
@@ -57,20 +59,22 @@ export default function CreateLinkForm({ onCreated }: Props) {
               pattern="[a-zA-Z0-9-]+"
               minLength={3}
               maxLength={50}
-              className="flex-1 pr-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none bg-transparent"
+              className="flex-1 pr-4 py-3 text-sm text-ink placeholder:text-ink-faint focus:outline-none bg-transparent font-mono"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading || !targetUrl}
-            className="px-4 py-2.5 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 active:bg-indigo-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors whitespace-nowrap"
+            className="px-5 py-3 bg-gold text-void text-sm font-semibold hover:bg-gold-bright active:scale-[0.97] disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-150 whitespace-nowrap font-sans"
           >
-            {loading ? 'Creating…' : 'Create'}
+            {loading ? 'Creating…' : 'Shorten →'}
           </button>
         </div>
 
-        {error && <p className="text-xs text-red-500 pt-0.5">{error}</p>}
+        {error && (
+          <p className="text-xs text-ember pt-0.5 font-sans">{error}</p>
+        )}
       </form>
     </div>
   );
