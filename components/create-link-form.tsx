@@ -11,6 +11,8 @@ interface Props {
 export default function CreateLinkForm({ onCreated }: Props) {
   const [targetUrl, setTargetUrl] = useState('');
   const [slug, setSlug] = useState('');
+  const [noExpiry, setNoExpiry] = useState(false);
+  const [expiresInDays, setExpiresInDays] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -22,10 +24,14 @@ export default function CreateLinkForm({ onCreated }: Props) {
       const link = await api.links.create({
         targetUrl,
         slug: slug.trim() || undefined,
+        noExpiry: noExpiry || undefined,
+        expiresInDays: !noExpiry && expiresInDays ? parseInt(expiresInDays) : undefined,
       });
       onCreated(link);
       setTargetUrl('');
       setSlug('');
+      setExpiresInDays('');
+      setNoExpiry(false);
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'Something went wrong. Please try again.');
     } finally {
@@ -68,6 +74,34 @@ export default function CreateLinkForm({ onCreated }: Props) {
           >
             {loading ? 'Creating…' : 'Create'}
           </button>
+        </div>
+
+        <div className="flex items-center gap-4 pt-0.5">
+          <label className="flex items-center gap-2 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={noExpiry}
+              onChange={e => setNoExpiry(e.target.checked)}
+              className="w-3.5 h-3.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+            />
+            <span className="text-xs text-slate-500">Never expire</span>
+          </label>
+
+          {!noExpiry && (
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-slate-500">Expires in</span>
+              <input
+                type="number"
+                value={expiresInDays}
+                onChange={e => setExpiresInDays(e.target.value)}
+                min={1}
+                max={365}
+                placeholder="30"
+                className="w-16 px-2 py-1 rounded-md border border-slate-200 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              />
+              <span className="text-xs text-slate-500">days</span>
+            </div>
+          )}
         </div>
 
         {error && <p className="text-xs text-red-500 pt-0.5">{error}</p>}

@@ -1,4 +1,10 @@
-import type { ShortLink, CreateLinkInput } from './types';
+import type {
+  ShortLink,
+  CreateLinkInput,
+  UpdateLinkInput,
+  PaginatedLinksResponse,
+  AnalyticsResponse,
+} from './types';
 
 const BASE = process.env.NEXT_PUBLIC_GATEWAY_URL ?? 'http://localhost:3000';
 
@@ -17,7 +23,7 @@ async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
   });
 
   if (!res.ok) {
-    const body = await res.json().catch(() => ({})) as { message?: string };
+    const body = (await res.json().catch(() => ({}))) as { message?: string };
     throw new ApiError(res.status, body.message ?? res.statusText);
   }
 
@@ -27,11 +33,14 @@ async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
 
 export const api = {
   links: {
-    list: () => apiFetch<ShortLink[]>('/links'),
+    list: (page = 1, limit = 20) =>
+      apiFetch<PaginatedLinksResponse>(`/links?page=${page}&limit=${limit}`),
     create: (data: CreateLinkInput) =>
       apiFetch<ShortLink>('/links', { method: 'POST', body: JSON.stringify(data) }),
-    delete: (slug: string) =>
-      apiFetch<void>(`/links/${slug}`, { method: 'DELETE' }),
+    update: (slug: string, data: UpdateLinkInput) =>
+      apiFetch<ShortLink>(`/links/${slug}`, { method: 'PATCH', body: JSON.stringify(data) }),
+    delete: (slug: string) => apiFetch<void>(`/links/${slug}`, { method: 'DELETE' }),
+    analytics: (slug: string) => apiFetch<AnalyticsResponse>(`/links/${slug}/analytics`),
   },
   auth: {
     logout: () => apiFetch<void>('/auth/logout', { method: 'POST' }),

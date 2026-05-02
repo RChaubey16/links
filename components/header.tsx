@@ -1,11 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 
 export default function Header() {
-  const router = useRouter();
   const [busy, setBusy] = useState(false);
 
   const handleLogout = async () => {
@@ -13,7 +11,9 @@ export default function Header() {
     try {
       await api.auth.logout();
     } finally {
-      router.replace('/');
+      // Full page reload — bypasses Next.js Router Cache so the landing page
+      // server component re-reads cookies and sees the cleared session.
+      window.location.replace('/');
     }
   };
 
