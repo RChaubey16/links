@@ -64,7 +64,7 @@ export default function LinkCard({ link, onUpdated, onDeleted }: Props) {
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="font-mono text-sm font-medium text-indigo-600">/s/{link.slug}</span>
+              <span className="font-mono text-sm font-medium text-sky-600">/s/{link.slug}</span>
               <span className="text-slate-300 text-xs">·</span>
               <span className="text-xs text-slate-400">
                 {link.clickCount} {link.clickCount === 1 ? 'click' : 'clicks'}

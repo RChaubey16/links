@@ -49,11 +49,11 @@ export default function CreateLinkForm({ onCreated }: Props) {
           onChange={e => setTargetUrl(e.target.value)}
           placeholder="https://example.com/your/long/url"
           required
-          className="w-full px-3 py-2.5 rounded-lg border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+          className="w-full px-3 py-2.5 rounded-lg border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition"
         />
 
         <div className="flex gap-2">
-          <div className="flex items-center flex-1 rounded-lg border border-slate-200 overflow-hidden focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-transparent transition">
+          <div className="flex items-center flex-1 rounded-lg border border-slate-200 overflow-hidden focus-within:ring-2 focus-within:ring-sky-500 focus-within:border-transparent transition">
             <span className="pl-3 pr-1 text-sm text-slate-400 select-none">/s/</span>
             <input
               type="text"
@@ -70,7 +70,7 @@ export default function CreateLinkForm({ onCreated }: Props) {
           <button
             type="submit"
             disabled={loading || !targetUrl}
-            className="px-4 py-2.5 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 active:bg-indigo-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors whitespace-nowrap"
+            className="px-4 py-2.5 bg-sky-600 text-white text-sm font-medium rounded-lg hover:bg-sky-700 active:bg-sky-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors whitespace-nowrap"
           >
             {loading ? 'Creating…' : 'Create'}
           </button>
@@ -82,7 +82,7 @@ export default function CreateLinkForm({ onCreated }: Props) {
               type="checkbox"
               checked={noExpiry}
               onChange={e => setNoExpiry(e.target.checked)}
-              className="w-3.5 h-3.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+              className="w-3.5 h-3.5 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
             />
             <span className="text-xs text-slate-500">Never expire</span>
           </label>
@@ -97,7 +97,7 @@ export default function CreateLinkForm({ onCreated }: Props) {
                 min={1}
                 max={365}
                 placeholder="30"
-                className="w-16 px-2 py-1 rounded-md border border-slate-200 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                className="w-16 px-2 py-1 rounded-md border border-slate-200 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
               />
               <span className="text-xs text-slate-500">days</span>
             </div>

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
@@ -36,8 +37,15 @@ export default async function HomePage() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-white px-4">
       <div className="w-full max-w-sm text-center">
         <div className="mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-600 mb-6">
-            <LinkIcon className="w-7 h-7 text-white" />
+          <div className="inline-flex mb-6">
+            <Image
+              src="/favicon.ico"
+              alt="Links"
+              width={56}
+              height={56}
+              priority
+              className="rounded-2xl"
+            />
           </div>
           <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Links</h1>
           <p className="mt-2 text-slate-500 text-sm">Short links. Click tracking. No noise.</p>
@@ -56,19 +64,6 @@ export default async function HomePage() {
         </p>
       </div>
     </div>
-  );
-}
-
-function LinkIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-      />
-    </svg>
   );
 }
 

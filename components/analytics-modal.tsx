@@ -86,7 +86,7 @@ export default function AnalyticsModal({ slug, onClose }: Props) {
                       </span>
                       <div className="flex-1 bg-slate-100 rounded-full h-2 overflow-hidden">
                         <div
-                          className="h-full bg-indigo-500 rounded-full"
+                          className="h-full bg-sky-500 rounded-full"
                           style={{ width: `${(count / maxCount) * 100}%` }}
                         />
                       </div>
