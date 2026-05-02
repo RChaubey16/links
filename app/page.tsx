@@ -1,5 +1,20 @@
+import type { Metadata } from 'next';
 import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+
+export const metadata: Metadata = {
+  title: 'Sign in',
+  description:
+    'Sign in to Links to create, manage, and track your short links.',
+  openGraph: {
+    title: 'Sign in to Links',
+    description: 'Sign in to Links to create, manage, and track your short links.',
+  },
+  twitter: {
+    title: 'Sign in to Links',
+    description: 'Sign in to Links to create, manage, and track your short links.',
+  },
+};
 
 const GATEWAY = process.env.NEXT_PUBLIC_GATEWAY_URL ?? 'http://localhost:3000';
 
